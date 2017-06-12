@@ -1,6 +1,9 @@
 // an array with all of our cart items
 var cart = [];
 
+
+var STORAGE_ID = 'shoppingCart';
+
 var updateCart = function () {
             $('.cart-list').empty()
 
@@ -26,6 +29,13 @@ cart.length = 0
 }
 
 
+  var saveToLocalStorage = function () {
+    localStorage.setItem(STORAGE_ID, JSON.stringify(cart));
+  }
+
+  var getFromLocalStorage = function () {
+    cart = JSON.parse(localStorage['shoppingCart'] || '[]');
+  }
 
 
 
@@ -38,10 +48,14 @@ $('.add-to-cart').on('click', function () {
     var item = $(this).closest('.card').data()
   addItem(item);
   updateCart();
+  saveToLocalStorage();
+
 });
 
 $('.clear-cart').on('click', function () {
   clearCart();
 });
 
+
+getFromLocalStorage();
 updateCart();
